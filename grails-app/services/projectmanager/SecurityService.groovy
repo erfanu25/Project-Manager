@@ -25,7 +25,7 @@ class SecurityService {
         Users user = Users.findByEmailAndPassword(email, password)
         if (user){
             setAuthorization(user)
-            return true
+            return user.role
         }
         return false
     }

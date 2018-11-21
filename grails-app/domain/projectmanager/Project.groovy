@@ -7,6 +7,7 @@ class Project {
     String type
     String category
     Company company
+    Users manager
 
     static hasMany = [users: Users]
 
@@ -16,7 +17,7 @@ class Project {
     static constraints = {
         company(nullable: true)
         users(nullable: true)
-        id(nullable: true)
+        manager(nullable: true)
     }
 
     static mapping = {

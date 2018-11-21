@@ -22,7 +22,7 @@ class AuthenticationController {
     }
 
     def doLogin() {
-        if (securityService.doLogin(params.email, params.password)) {
+        if (securityService.doLogin(params.email, params.password) == "Admin") {
             redirect(controller: "owner", action: "index")
         } else {
             redirect(controller: "authentication", action: "login")
