@@ -18,7 +18,7 @@ class PublicService {
 
             Users users = new Users()
             users.name = params.ownerName
-            users.password = params.password
+            users.password = params.password.encodeAsMD5()
             users.email = params.email
             users.role = "Admin"
             users.company = company

@@ -11,8 +11,8 @@ class UIHelperTagLib {
 
     def ownerActionMenu = { attrs, body ->
 
-        out << g.link(controller: "Authentication", action: "panel", class:"nav-link"){g.message(code:"Log Out")}+"    "
-        out << g.link(controller: "Authentication", action: "signUp",class:"nav-link"){g.message(code:"Change Password")}+"    "
+        out << g.link(controller: "Authentication", action: "logout", class:"nav-link"){g.message(code:"Log Out")}+"    "
+        out << g.link(controller: "Authentication", action: "changePassword",class:"nav-link"){g.message(code:"Change Password")}+"    "
     }
 
     def appMenu = { attrs, body ->

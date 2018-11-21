@@ -30,12 +30,12 @@ class Users {
     }
 
     def beforeInsert = {
-        this.password = this.password.encodeAsMD5()
+       // this.password = this.password.encodeAsMD5()
     }
 
 
     def beforeUpdate = {
-        this.password = this.password.encodeAsMD5()
+      //  this.password = this.password.encodeAsMD5()
     }
 
 }
