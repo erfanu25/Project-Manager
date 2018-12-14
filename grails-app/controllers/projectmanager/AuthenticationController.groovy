@@ -7,7 +7,7 @@ class AuthenticationController {
     SecurityService securityService
 
     def panel() { }
-    def signUp(){ }
+    def signUp(){}
     def login(){ }
 
     def register(){
@@ -15,17 +15,19 @@ class AuthenticationController {
         if (response.isSuccess) {
             redirect(controller: "owner", action: "index", params: [company:  response.model])
         } else {
-
-            redirect(controller: "authentication", action: "panel")
-
+            redirect(controller: "authentication", action: "signUp")
         }
     }
 
     def doLogin() {
         if (securityService.doLogin(params.email, params.password) == "Admin") {
             redirect(controller: "owner", action: "index")
-        } else {
-            redirect(controller: "authentication", action: "login")
+        }
+        else if(securityService.doLogin(params.email, params.password) == "Member") {
+            redirect(controller: "member", action: "index")
+        }
+        else if(securityService.doLogin(params.email, params.password) == "Manager") {
+            redirect(controller: "manager", action: "index")
         }
     }
 

@@ -10,7 +10,7 @@ class Project {
     Users manager
 
     static hasMany = [users: Users]
-
+    static belongsTo = [company:Company]
     Date dateCreated
     Date lastUpdated
 

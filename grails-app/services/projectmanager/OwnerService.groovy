@@ -3,6 +3,7 @@ package projectmanager
 import grails.gorm.transactions.Transactional
 import grails.web.servlet.mvc.GrailsParameterMap
 
+
 @Transactional
 class OwnerService {
 
@@ -56,5 +57,29 @@ class OwnerService {
 
         List<Project> projectList = Project.findAllByCompany(userCompany.company)
         return [list:projectList, count:Project.count()]
+    }
+
+    def getMember(Serializable id) {
+        return Users.get(id)
+    }
+
+    def memberUpdate(Users users, GrailsParameterMap params) {
+        users.properties = params
+        def response = AppUtil.saveResponse(false, users)
+        if (users.validate()) {
+            response.isSuccess = true
+            users.save(flush:true)
+        }
+        return response
+    }
+
+    def deleteMember(Users users) {
+        try {
+            users.delete(flush: true)
+        } catch (Exception e) {
+            println(e.getMessage())
+            return false
+        }
+        return true
     }
 }

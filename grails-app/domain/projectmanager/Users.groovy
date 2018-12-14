@@ -15,8 +15,10 @@ class Users {
     Date dateCreated
     Date lastUpdated
 
+    static hasMany = [task:Task]
+    static belongsTo = [company:Company]
     static constraints = {
-       // email(email: true, nullable: false, unique: true, blank: false)
+        email(email: true, nullable: false, unique: true, blank: false)
         password(blank: false)
         company(nullable: true)
         project(nullable: true)

@@ -32,8 +32,10 @@
                     <td>
                         <div class="btn-group">
                             <g:link controller="owner" action="editMember" class="btn btn-secondary" id="${member.id}"><i class="fa fa-pencil fa-lg"></i></g:link>
+                <g:if test="${member.role != 'Admin'}">
                             <g:link controller="owner" action="deleteMember" id="${member.id}" class="btn btn-secondary delete-confirmation"><i class="fa fa-remove fa-lg"></i></g:link>
-                        </div>
+                </g:if>
+                    </div>
                     </td>
                 </tr>
             </g:each>
