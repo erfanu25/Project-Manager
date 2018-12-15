@@ -19,12 +19,12 @@ class Users {
     static belongsTo = [company:Company]
     static constraints = {
         email(email: true, nullable: false, unique: true, blank: false)
-        password(blank: false)
-        company(nullable: true)
+        password(blank: false, nullable: false)
+        company(nullable: false)
         project(nullable: true)
         designation(nullable: true)
         id(nullable: true)
-        number(nullable: true)
+        number(nullable: true ,matches: "^[0-9]{7,14}\$" )
     }
 
     static mapping = {

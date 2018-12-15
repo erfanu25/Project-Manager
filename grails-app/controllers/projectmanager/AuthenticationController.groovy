@@ -7,7 +7,9 @@ class AuthenticationController {
     SecurityService securityService
 
     def panel() { }
-    def signUp(){}
+    def signUp(){
+        [company: flash.redirectParams]
+    }
     def login(){ }
 
     def register(){
@@ -15,8 +17,11 @@ class AuthenticationController {
         if (response.isSuccess) {
             redirect(controller: "owner", action: "index", params: [company:  response.model])
         } else {
+            flash.redirectParams = response.model
+            flash.message = AppUtil.infoMessage(g.message(code: "please.provide.correct.info"), false)
             redirect(controller: "authentication", action: "signUp")
         }
+
     }
 
     def doLogin() {
@@ -28,6 +33,11 @@ class AuthenticationController {
         }
         else if(securityService.doLogin(params.email, params.password) == "Manager") {
             redirect(controller: "manager", action: "index")
+        }
+        else
+        {
+            flash.message = AppUtil.infoMessage(g.message(code: "user.name.or.password.is.wrong"), false)
+            redirect(controller: "authentication", action: "login")
         }
     }
 

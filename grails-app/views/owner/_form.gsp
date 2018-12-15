@@ -7,7 +7,7 @@
     </div>
     <div class="form-group">
         <label>Designation</label>
-        <g:textField name="designation" class="form-control" value="${member?.designation}" placeholder="Please Enter Company Address"/>
+        <g:textField name="designation" class="form-control" value="${member?.designation}" placeholder="Please Enter Employee Designation"/>
 
     </div>
 
@@ -32,13 +32,13 @@
     <g:if test="${!member}">
     <div class="form-group">
         <label>Password *</label>
-        <g:textField name="password" class="form-control password-field" placeholder="Please Enter Password"/>
+        <g:passwordField name="password" class="form-control password-field" placeholder="Please Enter Password"/>
 
     </div>
 
     <div class="form-group">
         <label>Retype your Password*</label>
-        <g:textField name="rePassword" class="form-control password-field" placeholder="Please Retype Password"/>
+        <g:passwordField name="rePassword" class="form-control password-field" placeholder="Please Retype Password"/>
 
     </div>
 

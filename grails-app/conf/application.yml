@@ -100,3 +100,5 @@ environments:
         dataSource:
             dbCreate: create-drop
             url: jdbc:mysql://localhost:3306/project_manager?createDatabaseIfNotExist=true
+server:
+    port: 8585

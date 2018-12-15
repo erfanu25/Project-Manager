@@ -2,7 +2,7 @@
 
     <div class="form-group">
         <label>Project Name *</label>
-        <g:textField name="name" class="form-control" placeholder="Please Enter Project Name"/>
+        <g:textField name="name" class="form-control" value="${project?.name}" placeholder="Please Enter Project Name"/>
     </div>
 
 

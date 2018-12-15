@@ -63,12 +63,26 @@ class OwnerService {
         return Users.get(id)
     }
 
+    def getProject(Serializable id){
+        return Project.get(id)
+    }
+
     def memberUpdate(Users users, GrailsParameterMap params) {
         users.properties = params
         def response = AppUtil.saveResponse(false, users)
         if (users.validate()) {
             response.isSuccess = true
             users.save(flush:true)
+        }
+        return response
+    }
+
+    def projectUpdate(Project project, GrailsParameterMap params){
+        project.properties = params
+        def response = AppUtil.saveResponse(false, project)
+        if (project.validate()) {
+            response.isSuccess = true
+            project.save(flush:true)
         }
         return response
     }
@@ -82,4 +96,16 @@ class OwnerService {
         }
         return true
     }
+
+    def deleteProject(Project project){
+        try {
+            project.delete(flush: true)
+        } catch (Exception e) {
+            println(e.getMessage())
+            return false
+        }
+        return true
+    }
+
+
 }

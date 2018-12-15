@@ -40,4 +40,15 @@ class PublicService {
 
         return companyResponse
     }
+
+    def getMemberName(){
+        def member = getMember()
+        return "${member.name}"
+    }
+
+    def getMember(){
+        def authorization = AppUtil.getAppSession().AUTHORIZED
+        return authorization?.user
+    }
+
 }

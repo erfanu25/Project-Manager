@@ -4,7 +4,7 @@
         <g:message message="Assign Manager on Project"/>
     </div>
     <div class="card-body">
-        <g:form controller="assign" action="save">
+        <g:form controller="owner" action="provideManager">
             <div class="dropdown">
                 <label><g:message  message="Projects"/></label>
                 <UIHelper:projectList name="project" />

@@ -16,6 +16,9 @@ class Company {
 
     static constraints = {
         email(email: true, nullable: false, unique: true, blank: false)
+        companyName(nullable: false, blank: false)
+        address(nullable: false, blank: false)
+        number(matches: "^[0-9]{7,14}\$")
     }
 
     static mapping = {

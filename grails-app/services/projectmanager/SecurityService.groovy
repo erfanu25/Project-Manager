@@ -1,8 +1,6 @@
 package projectmanager
 
-import grails.transaction.Transactional
 
-@Transactional
 class SecurityService {
 
     private static final String AUTHORIZED = "AUTHORIZED"

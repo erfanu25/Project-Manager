@@ -11,6 +11,14 @@
     <asset:stylesheet src="application.css"/>
     <asset:javascript src="application.js"/>
 
+    <script type="text/javascript">
+        GT.baseURL = "${session.getServletContext().getContextPath()}/";
+        <g:if test="${flash?.message && flash?.message?.info}">
+        jQuery(document).ready(function () {
+            GT.messageBox.showMessage(Boolean(${flash.message?.success}), "${flash.message?.info}");
+        });
+        </g:if>
+    </script>
 
     <g:layoutHead/>
 </head>
@@ -18,7 +26,7 @@
 <body>
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark rounded">
-        <a class="navbar-brand" href="#">Project Manager</a>
+        <a class="navbar-brand" href="/owner">Project Manager</a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
                 data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
                 aria-label="Toggle navigation">
