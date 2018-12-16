@@ -47,16 +47,49 @@ class OwnerService {
         Users admin = securityService.getUser()
         Users userCompany = Users.findById(admin.id)
 
-        List<Users> userList = Users.findAllByCompany(userCompany.company)
+        List<Users> userList = Users.findAllByCompanyAndRole(userCompany.company,"Member")
+        return [list:userList, count:Users.count()]
+    }
+    def allManagerList() {
+        Users admin = securityService.getUser()
+        Users userCompany = Users.findById(admin.id)
+
+        List<Users> userList = Users.findAllByCompanyAndRole(userCompany.company,"Manager")
         return [list:userList, count:Users.count()]
     }
 
+    def managerList(){
+        Users admin = securityService.getUser()
+        Users userCompany = Users.findById(admin.id)
+
+        return Users.findAllByRoleAndCompanyAndProject("Manager",userCompany.company,null)+ Users.findAllByRoleAndCompanyAndProject("Admin",userCompany.company,null)
+    }
+    def memberListForAddProject(){
+        Users admin = securityService.getUser()
+        Users userCompany = Users.findById(admin.id)
+
+        return Users.findAllByRoleAndCompanyAndProject("Member",userCompany.company,null)
+    }
+    def listOfProjectForManager(){
+        Users admin = securityService.getUser()
+        Users userCompany = Users.findById(admin.id)
+
+        return Project.findAllByCompanyAndManager(userCompany.company,null)
+    }
+
+    def listOfProjectForMember(){
+        Users admin = securityService.getUser()
+        Users userCompany = Users.findById(admin.id)
+
+        return Project.findAllByCompany(userCompany.company)
+    }
     def projectList() {
         Users admin = securityService.getUser()
         Users userCompany = Users.findById(admin.id)
 
+        List<Users> users = Users.findAllByCompany(userCompany.company)
         List<Project> projectList = Project.findAllByCompany(userCompany.company)
-        return [list:projectList, count:Project.count()]
+        return [list:projectList, count:users.size()]
     }
 
     def getMember(Serializable id) {
@@ -107,5 +140,69 @@ class OwnerService {
         return true
     }
 
+    def removeProjectMember(Users users){
+        try {
+            users.project=null
+            users.save(flush: true)
+        } catch (Exception e) {
+            println(e.getMessage())
+            return false
+        }
+        return true
+    }
+
+    def removeProjectManager(Project project){
+        try {
+            Users users = project.manager
+            users.project = null
+            users.save(flush: true)
+            project.manager=null
+            project.save(flush: true)
+        } catch (Exception e) {
+            println(e.getMessage())
+            return false
+        }
+        return true
+    }
+    def provideManager(Project project,Users users, GrailsParameterMap params){
+
+        project.manager=users
+        users.project=project
+        def response = AppUtil.saveResponse(false, project)
+        if (project) {
+            response.isSuccess = true
+            project.save(flush:true)
+            users.save(flush:true)
+        }
+        else
+        {
+            response.isSuccess = false
+        }
+        return response
+    }
+
+
+    def provideMember(Project project,Users users, GrailsParameterMap params){
+
+        users.project=project
+        def response = AppUtil.saveResponse(false, project)
+        if (project) {
+            response.isSuccess = true
+            users.save(flush:true)
+        }
+        else
+        {
+            response.isSuccess = false
+        }
+        return response
+    }
+
+    def projectDetails(Serializable id){
+        Project project = getProject(id)
+        Users manager = project.manager
+
+        List<Users> memberList = Users.findAllByProject(project)
+        return [member:memberList, manager:manager, project:project, count: memberList.size()]
+    }
 
 }

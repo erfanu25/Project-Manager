@@ -5,9 +5,13 @@ class OwnerController {
     OwnerService ownerService
 
     def index() {
-
+        def response = ownerService.projectList()
+        [project: response.list, total:response.count]
     }
     def assignManager() { }
+
+    def assignMember(){}
+
     def addMember() {
         [member: flash.redirectParams]
     }
@@ -58,6 +62,11 @@ class OwnerController {
     def showMember(){
 
         def response = ownerService.memberList()
+        [user: response.list, total:response.count]
+    }
+    def showManagers(){
+
+        def response = ownerService.allManagerList()
         [user: response.list, total:response.count]
     }
 
@@ -142,6 +151,81 @@ class OwnerController {
                 flash.message = AppUtil.infoMessage(g.message(code: "deleted"))
             }
             redirect(controller: "owner", action: "projectList")
+        }
+    }
+
+    def provideManager(){
+        def response = ownerService.getProject(params.project)
+        def managerResponse = ownerService.getMember(params.manager)
+        if (!response) {
+            flash.message = AppUtil.infoMessage(g.message(code: "manager.assigned.failed"), false)
+            redirect(controller: "owner", action: "assignManager")
+        } else {
+            response = ownerService.provideManager(response,managerResponse, params)
+            if (!response.isSuccess) {
+                flash.message = AppUtil.infoMessage(g.message(code: "manager.assigned.failed"), false)
+                redirect(controller: "owner", action: "assignManager")
+            } else {
+                flash.message = AppUtil.infoMessage(g.message(code: "manager.assigned"))
+                redirect(controller: "owner", action: "assignManager")
+            }
+        }
+    }
+
+    def provideMember(){
+        def response = ownerService.getProject(params.project)
+        def memberResponse = ownerService.getMember(params.member)
+        if (!response) {
+            flash.message = AppUtil.infoMessage(g.message(code: "member.assigned.failed"), false)
+            redirect(controller: "owner", action: "assignMember")
+        } else {
+            response = ownerService.provideMember(response,memberResponse, params)
+            if (!response.isSuccess) {
+                flash.message = AppUtil.infoMessage(g.message(code: "member.assigned.failed"), false)
+                redirect(controller: "owner", action: "assignMember")
+            } else {
+                flash.message = AppUtil.infoMessage(g.message(code: "member.assigned"))
+                redirect(controller: "owner", action: "assignMember")
+            }
+        }
+    }
+
+    def projectDetails(Integer id){
+
+        def response = ownerService.projectDetails(id)
+        [member: response.member, manager:response.manager, project:response.project, count:response.count]
+    }
+
+    def removeProjectMember(Integer id){
+        def response = ownerService.getMember(id)
+        Project project = response.project
+        if (!response){
+            flash.message = AppUtil.infoMessage(g.message(code: "unable.to.remove"), false)
+            redirect(controller: "owner", action: "projectDetails", id:project.id)
+        }else{
+            def check = ownerService.removeProjectMember(response)
+            if (!check){
+                flash.message = AppUtil.infoMessage(g.message(code: "unable.to.remove"), false)
+            }else{
+                flash.message = AppUtil.infoMessage(g.message(code: "removed"))
+            }
+            redirect(controller: "owner", action: "projectDetails", id:project.id)
+        }
+    }
+
+    def removeManager(Integer id){
+        def response = ownerService.getProject(id)
+        if (!response){
+            flash.message = AppUtil.infoMessage(g.message(code: "unable.to.remove"), false)
+            redirect(controller: "owner", action: "projectDetails", id:id)
+        }else{
+            def check = ownerService.removeProjectManager(response)
+            if (!check){
+                flash.message = AppUtil.infoMessage(g.message(code: "unable.to.remove"), false)
+            }else{
+                flash.message = AppUtil.infoMessage(g.message(code: "removed"))
+            }
+            redirect(controller: "owner", action: "projectDetails", id:id)
         }
     }
 }

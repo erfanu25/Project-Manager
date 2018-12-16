@@ -2,10 +2,10 @@
 
 <div class="card">
     <div class="card-header">
-        <g:message code="members" args="['List Of']"/>
+        <g:message code="Managers" args="['List Of']"/>
         <span class="float-right">
             <div class="btn-group">
-                <g:link controller="owner" action="showMember" class="btn btn-primary"><g:message code="reload"/></g:link>
+                <g:link controller="owner" action="showManagers" class="btn btn-primary"><g:message code="reload"/></g:link>
             </div>
         </span>
     </div>

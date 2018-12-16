@@ -29,6 +29,7 @@
                     <td>${it?.category}</td>
                     <td>
                         <div class="btn-group">
+                            <g:link controller="owner" action="projectDetails" class="btn btn-secondary" id="${it.id}"><i class="fa fa-eye fa-lg"></i></g:link>
                             <g:link controller="owner" action="editProject" class="btn btn-secondary" id="${it.id}"><i class="fa fa-pencil fa-lg"></i></g:link>
                             <g:link controller="owner" action="deleteProject" id="${it.id}" class="btn btn-secondary delete-confirmation"><i class="fa fa-remove fa-lg"></i></g:link>
                         </div>

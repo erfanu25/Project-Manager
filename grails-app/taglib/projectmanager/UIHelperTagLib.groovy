@@ -33,6 +33,7 @@ class UIHelperTagLib {
         [
                 [controller: "Owner", action: "addMember", name: "add.member"],
                 [controller: "Owner", action: "showMember", name: "members"],
+                [controller: "Owner", action: "showManagers", name: "managers"],
                 [controller: "Owner", action: "createProject", name: "create.project"],
                 [controller: "Owner", action: "projectList", name: "projects"],
                 [controller: "Owner", action: "assignManager", name: "assign.manager"],
@@ -48,12 +49,22 @@ class UIHelperTagLib {
 
     def projectList = { attrs, body ->
         String name = attrs.name ?: "projectList"
-        out << g.select(class:"dropdown", value: attrs.name, name: name, from: ownerService.projectList())
+        out << g.select(class:"dropdown",optionValue: "name", optionKey: "id", value: attrs.name, name: name, from: ownerService.listOfProjectForManager())
     }
 
     def managerList = { attrs, body ->
         String name = attrs.name ?: "managerList"
-        out << g.select(class:"form-control", multiple: "multiple", value: attrs.value, name: name, from: ownerService.memberList())
+        out << g.select(class:"form-control", multiple: "multiple",optionValue: "name", optionKey: "id",value: attrs.value, name: name, from: ownerService.managerList())
+    }
+
+    def projectListForMember = { attrs, body ->
+        String name = attrs.name ?: "projectList"
+        out << g.select(class:"dropdown",optionValue: "name", optionKey: "id", value: attrs.name, name: name, from: ownerService.listOfProjectForMember())
+    }
+
+    def memberList = { attrs, body ->
+        String name = attrs.name ?: "memberList"
+        out << g.select(class:"form-control", multiple: "multiple",optionValue: "name", optionKey: "id",value: attrs.value, name: name, from: ownerService.memberListForAddProject())
     }
 
 }
