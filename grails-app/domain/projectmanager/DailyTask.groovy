@@ -4,6 +4,7 @@ class DailyTask {
 
     Integer id
     String description
+    Users manager
     Users users
 
     Date dateCreated

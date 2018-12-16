@@ -5,6 +5,7 @@ class UIHelperTagLib {
 
     OwnerService ownerService
     PublicService publicService
+    ManagerService managerService
 
     def renderErrorMessage = { attrs, body ->
         def model = attrs.model
@@ -38,7 +39,7 @@ class UIHelperTagLib {
                 [controller: "Owner", action: "projectList", name: "projects"],
                 [controller: "Owner", action: "assignManager", name: "assign.manager"],
                 [controller: "Owner", action: "assignMember", name: "assign.member"],
-                [controller: "Owner", action: "index", name: "progress.report"]
+                [controller: "Owner", action: "companyReport", name: "progress.report"]
 
         ].each { menu ->
             out << '<li class="list-group-item">'
@@ -47,6 +48,47 @@ class UIHelperTagLib {
         }
     }
 
+    def progressMenu = { attrs, body ->
+        [
+                [controller: "Owner", action: "companyReport", name: "companyReport"],
+                [controller: "Owner", action: "progressReport", name: "progressReport"],
+                [controller: "Owner", action: "allProjectReport", name: "allProject"],
+                [controller: "Owner", action: "index", name: "Back"],
+
+        ].each { menu ->
+            out << '<li class="list-group-item">'
+            out << g.link(controller: menu.controller, action: menu.action) { g.message(code: menu.name, args: ['']) }
+            out << '</li>'
+        }
+    }
+
+    def managerMenu = { attrs, body ->
+        [
+                [controller: "Manager", action: "teamMembers", name: "teamMembers"],
+                [controller: "Manager", action: "assignTask", name: "assignTask"],
+                [controller: "Manager", action: "taskList", name: "taskList"],
+                [controller: "Manager", action: "dailyTaskUpdate", name: "dailyTaskUpdate"],
+                [controller: "Manager", action: "projectReport", name: "progress.report"]
+
+        ].each { menu ->
+            out << '<li class="list-group-item">'
+            out << g.link(controller: menu.controller, action: menu.action) { g.message(code: menu.name, args: ['']) }
+            out << '</li>'
+        }
+    }
+
+    def memberMenu = { attrs, body ->
+        [
+                [controller: "Member", action: "viewAssignTask", name: "viewAssignTask"],
+                [controller: "Member", action: "giveTaskUpdate", name: "giveTaskUpdate"],
+                [controller: "Member", action: "taskUpdateList", name: "taskUpdateList"],
+
+        ].each { menu ->
+            out << '<li class="list-group-item">'
+            out << g.link(controller: menu.controller, action: menu.action) { g.message(code: menu.name, args: ['']) }
+            out << '</li>'
+        }
+    }
     def projectList = { attrs, body ->
         String name = attrs.name ?: "projectList"
         out << g.select(class:"dropdown",optionValue: "name", optionKey: "id", value: attrs.name, name: name, from: ownerService.listOfProjectForManager())
@@ -65,6 +107,11 @@ class UIHelperTagLib {
     def memberList = { attrs, body ->
         String name = attrs.name ?: "memberList"
         out << g.select(class:"form-control", multiple: "multiple",optionValue: "name", optionKey: "id",value: attrs.value, name: name, from: ownerService.memberListForAddProject())
+    }
+
+    def projectMemberList = { attrs, body ->
+        String name = attrs.name ?: "memberList"
+        out << g.select(class:"dropdown", optionValue: "name", optionKey: "id",value: attrs.value, name: name, from: managerService.projectMemberList())
     }
 
 }

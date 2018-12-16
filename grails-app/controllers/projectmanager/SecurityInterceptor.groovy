@@ -10,7 +10,6 @@ class SecurityInterceptor {
 
     }
 
-
     boolean before() {
         if (!securityService.isAuthenticated()) {
             redirect(controller: "Authentication", action: "panel")
@@ -18,5 +17,6 @@ class SecurityInterceptor {
         }
         return true
     }
+
 
 }

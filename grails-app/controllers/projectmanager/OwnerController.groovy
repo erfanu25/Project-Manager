@@ -1,5 +1,7 @@
 package projectmanager
 
+import grails.converters.JSON
+
 class OwnerController {
 
     OwnerService ownerService
@@ -227,5 +229,15 @@ class OwnerController {
             }
             redirect(controller: "owner", action: "projectDetails", id:id)
         }
+    }
+
+    def companyReport(){
+        def response = ownerService.companyReport()
+        [employee: response.employee, projectCount:response.project, manager:response.manager ]
+    }
+
+    def allProjectReport(){
+        def response = ownerService.projectList()
+        [project:response.list]
     }
 }

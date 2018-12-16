@@ -1,8 +1,8 @@
-<meta name="layout" content="main"/>
+<meta name="layout" content="manager"/>
 
 <div class="card">
     <div class="card-header">
-        <g:message message="Project Details"/>
+        <g:message message="Team Members"/>
     </div>
     <div class="card-body">
 
@@ -14,10 +14,6 @@
                 <p class="card-title"><b>Project Category : </b><g:message message="${project.category}"/></p>
                 <p class="card-title"><b>Started From : </b><g:message message="${project.dateCreated}"/></p>
                 <p class="card-title"><b>Total Member: </b><g:message message="${count}"/></p>
-                <g:if test="${manager?.name != null}">
-                <g:link controller="owner" action="removeManager" id="${project.id}" class="btn btn-primary"><g:message
-                        message="Remove Manager"/></g:link>
-                </g:if>
             </div>
         </div>
         <br>
@@ -43,7 +39,7 @@
                     <td>
                         <div class="btn-group">
                             <g:if test="${user?.role != 'Manager'}">
-                                <g:link controller="owner" action="removeProjectMember" id="${user.id}" class="btn btn-secondary delete-confirmation"><i class="fa fa-remove fa-lg"></i></g:link>
+                                <g:link controller="manager" action="removeProjectMember" id="${user.id}" class="btn btn-secondary delete-confirmation"><i class="fa fa-remove fa-lg"></i></g:link>
                             </g:if>
                         </div>
                     </td>

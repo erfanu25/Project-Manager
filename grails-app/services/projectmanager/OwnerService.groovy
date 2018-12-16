@@ -9,6 +9,14 @@ class OwnerService {
 
     SecurityService securityService
 
+    boolean userAuthenticated(){
+        def authorization = AppUtil.getAppSession().AUTHORIZED
+        if (authorization.type == "Admin" && authorization.isLoggedIn == true){
+           return true
+        }
+        return false
+    }
+
     def register(GrailsParameterMap params){
         Users members = new Users(params)
         members.password = params.password.encodeAsMD5()
@@ -89,7 +97,7 @@ class OwnerService {
 
         List<Users> users = Users.findAllByCompany(userCompany.company)
         List<Project> projectList = Project.findAllByCompany(userCompany.company)
-        return [list:projectList, count:users.size()]
+        return [list:projectList, count:users.size(), project: projectList.size()]
     }
 
     def getMember(Serializable id) {
@@ -204,5 +212,16 @@ class OwnerService {
         List<Users> memberList = Users.findAllByProject(project)
         return [member:memberList, manager:manager, project:project, count: memberList.size()]
     }
+
+    def companyReport(){
+        Users admin = securityService.getUser()
+        Users userCompany = Users.findById(admin.id)
+
+        List<Users> users = Users.findAllByCompanyAndRole(userCompany.company,"Member")
+        List<Project> projectList = Project.findAllByCompany(userCompany.company)
+        List<Users> managerList = Users.findAllByCompanyAndRole(userCompany.company,"Manager")
+        return [employee:users.size(), project: projectList.size(), manager:managerList.size() ]
+    }
+
 
 }

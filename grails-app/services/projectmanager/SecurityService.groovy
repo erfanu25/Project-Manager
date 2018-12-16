@@ -14,7 +14,7 @@ class SecurityService {
     }
 
     def setAuthorization(Users users){
-        def authorization = [isLoggedIn: true, user: users]
+        def authorization = [isLoggedIn: true, user: users, type:users.role]
         AppUtil.getAppSession()[AUTHORIZED] = authorization
     }
 
