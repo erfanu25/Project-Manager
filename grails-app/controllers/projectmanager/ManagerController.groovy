@@ -70,4 +70,15 @@ class ManagerController {
         def response = managerService.taskUpdateList()
         [taskUpdate: response.taskUpdate]
     }
+
+    def projectReport(){
+        def response = managerService.projectDetails()
+        [member: response.member, manager:response.manager, project:response.project, count:response.count]
+    }
+    def teamReport(){
+
+    }
+    def taskReport(){
+
+    }
 }

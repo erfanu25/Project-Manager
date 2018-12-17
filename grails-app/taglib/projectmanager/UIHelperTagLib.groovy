@@ -17,7 +17,7 @@ class UIHelperTagLib {
     }
 
     def publicActionMenu = { attrs, body ->
-        out << g.link(controller: "Authentication", action: "login", class:"nav-link"){g.message(code:"Log In")}+"    "
+        out << g.link(controller: "Authentication", action: "login", class:"nav-link "){g.message(code:"Log In")}+"    "
         out << g.link(controller: "Authentication", action: "signUp",class:"nav-link"){g.message(code:"Sign Up")}+"    "
     }
 
@@ -51,7 +51,7 @@ class UIHelperTagLib {
     def progressMenu = { attrs, body ->
         [
                 [controller: "Owner", action: "companyReport", name: "companyReport"],
-                [controller: "Owner", action: "progressReport", name: "progressReport"],
+                [controller: "Owner", action: "progressReport", name: "projectProgress"],
                 [controller: "Owner", action: "allProjectReport", name: "allProject"],
                 [controller: "Owner", action: "index", name: "Back"],
 
@@ -62,6 +62,19 @@ class UIHelperTagLib {
         }
     }
 
+    def managerProgressMenu = { attrs, body ->
+        [
+                [controller: "Manager", action: "projectReport", name: "projectReport"],
+                [controller: "Manager", action: "teamReport", name: "teamReport"],
+                [controller: "Manager", action: "taskReport", name: "taskReport"],
+                [controller: "Manager", action: "index", name: "Back"],
+
+        ].each { menu ->
+            out << '<li class="list-group-item">'
+            out << g.link(controller: menu.controller, action: menu.action) { g.message(code: menu.name, args: ['']) }
+            out << '</li>'
+        }
+    }
     def managerMenu = { attrs, body ->
         [
                 [controller: "Manager", action: "teamMembers", name: "teamMembers"],

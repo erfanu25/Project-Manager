@@ -240,4 +240,8 @@ class OwnerController {
         def response = ownerService.projectList()
         [project:response.list]
     }
+
+    def progressReport(){
+
+    }
 }
