@@ -7,8 +7,8 @@ class OwnerController {
     OwnerService ownerService
 
     def index() {
-        def response = ownerService.projectList()
-        [project: response.list, total:response.count]
+        def response = ownerService.projectList(params)
+        [project: response.list, total:response.count, companyName: response.companyName]
     }
     def assignManager() { }
 
@@ -55,15 +55,14 @@ class OwnerController {
             redirect(controller: "owner", action: "projectList")
         } else {
             flash.message = AppUtil.infoMessage(g.message(code: "project.create.failed"), false)
-            redirect(controller: "owner", action: "index")
+            redirect(controller: "owner", action: "createProject")
 
         }
 
     }
 
     def showMember(){
-
-        def response = ownerService.memberList()
+        def response = ownerService.memberList(params)
         [user: response.list, total:response.count]
     }
     def showManagers(){
@@ -73,8 +72,8 @@ class OwnerController {
     }
 
     def projectList(){
-        def response = ownerService.projectList()
-        [project: response.list, total:response.count]
+        def response = ownerService.projectList(params)
+        [project: response.list, total:response.total]
     }
 
     def memberUpdate() {
@@ -107,6 +106,22 @@ class OwnerController {
                 flash.message = AppUtil.infoMessage(g.message(code: "deleted"))
             }
             redirect(controller: "owner", action: "showMember")
+        }
+    }
+
+    def deleteManager(Integer id) {
+        def response = ownerService.getMember(id)
+        if (!response){
+
+            redirect(controller: "owner", action: "showManagers")
+        }else{
+            response = ownerService.deleteMember(response)
+            if (!response){
+                flash.message = AppUtil.infoMessage(g.message(code: "unable.to.delete"), false)
+            }else{
+                flash.message = AppUtil.infoMessage(g.message(code: "deleted"))
+            }
+            redirect(controller: "owner", action: "showManagers")
         }
     }
 
@@ -194,8 +209,15 @@ class OwnerController {
 
     def projectDetails(Integer id){
 
-        def response = ownerService.projectDetails(id)
-        [member: response.member, manager:response.manager, project:response.project, count:response.count]
+        if(id){
+            def response = ownerService.projectDetails(id)
+            [member: response.member, manager:response.manager, project:response.project, count:response.count]
+        }
+        else
+        {
+            redirect(controller: "authentication", action: "panel")
+        }
+
     }
 
     def removeProjectMember(Integer id){
@@ -237,11 +259,12 @@ class OwnerController {
     }
 
     def allProjectReport(){
-        def response = ownerService.projectList()
+        def response = ownerService.projectList(params)
         [project:response.list]
     }
 
     def progressReport(){
-
+        def response = ownerService.projectList(params)
+        [project:response.list]
     }
 }

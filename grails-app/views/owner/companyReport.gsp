@@ -30,7 +30,7 @@
 </script>
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-info text-white">
         <g:message code="Company Info in a Bar Chart"/>
         <span class="float-right">
             <div class="btn-group">

@@ -1,6 +1,6 @@
 <meta name="layout" content="main"/>
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-info text-white">
         <g:message message="Assign Member on Project"/>
     </div>
     <div class="card-body">
@@ -16,7 +16,7 @@
             </div>
             <div class="form-action-panel">
                 <g:submitButton class="btn btn-primary" name="login" value="${g.message(code: "save")}"/>
-                <g:link controller="dashboard" action="index" class="btn btn-primary"><g:message code="cancel"/></g:link>
+                <g:link controller="owner" action="index" class="btn btn-primary"><g:message code="cancel"/></g:link>
             </div>
         </g:form>
     </div>

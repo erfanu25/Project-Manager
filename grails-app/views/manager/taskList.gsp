@@ -1,7 +1,7 @@
 <meta name="layout" content="manager"/>
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-info text-white">
         <g:message message="Task List"/>
         <span class="float-right">
 
@@ -28,12 +28,12 @@
                     <td>${member?.name}</td>
                     <td>${member?.description}</td>
                     <td>${member?.users?.name}</td>
-                    <td>${member?.fromDate}</td>
-                    <td>${member?.toDate}</td>
+                    <td><g:formatDate format="yyyy-MM-dd" date="${member?.fromDate}"/></td>
+                    <td><g:formatDate format="yyyy-MM-dd" date="${member?.toDate}"/></td>
                     <td>${member?.status}</td>
                     <td>
                         <div class="btn-group">
-                            <g:link controller="manager" action="removeTask" class="btn btn-secondary" id="${member.id}"><i class="fa fa-remove fa-lg"></i></g:link>
+                            <g:link controller="manager" action="removeTask" class="btn btn-secondary" id="${member.id}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"><i class="fa fa-remove fa-lg"></i></g:link>
                         </div>
                     </td>
                 </tr>

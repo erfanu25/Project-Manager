@@ -7,12 +7,19 @@ class MemberService {
 
     SecurityService securityService
 
+    boolean userAuthenticated(){
+        def authorization = AppUtil.getAppSession().AUTHORIZED
+        if (authorization.type == "Member" && authorization.isLoggedIn == true){
+            return true
+        }
+        return false
+    }
     def projectDetails(){
         Users user = securityService.getUser()
         Users member = Users.find(user)
         Project project = member.getProject()
         List<Users> memberList = Users.findAllByProject(project)
-        return [member:memberList, manager:project.manager, project:project, count: memberList.size(), user:member]
+        return [member:memberList, manager:project.manager, project:project, count: memberList.size(), user:member, companyName:member.company.companyName]
     }
 
     def taskList(){

@@ -41,9 +41,9 @@ class SecurityService {
     def changePassword(String oldPassword, String newPassword, String retrievePassword){
         Users user = getUser()
         if (!newPassword || !retrievePassword || !newPassword.equals(retrievePassword)) {
-            println("not match")
+            return AppUtil.infoMessage("Your Entered Password Not Matched.", false)
         } else if (user  && !user.password.equals(oldPassword.encodeAsMD5())) {
-            println("incorrect old password")
+            return AppUtil.infoMessage("Incorrect Old Password.", false)
         } else {
             user  = user.get(user.id)
             user.password = newPassword.encodeAsMD5()

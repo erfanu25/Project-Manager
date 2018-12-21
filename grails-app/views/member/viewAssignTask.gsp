@@ -1,7 +1,7 @@
 <meta name="layout" content="member"/>
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-info text-white">
         <g:message message="Task Assigned To Me"/>
         <span class="float-right">
 
@@ -26,8 +26,8 @@
                     <td>${counter+1}</td>
                     <td>${member?.name}</td>
                     <td>${member?.description}</td>
-                    <td>${member?.fromDate}</td>
-                    <td>${member?.toDate}</td>
+                    <td><g:formatDate format="yyyy-MM-dd" date="${member?.fromDate}"/></td>
+                    <td><g:formatDate format="yyyy-MM-dd" date="${member?.toDate}"/></td>
                     <td>${member?.status}</td>
                     <td>
                         <div class="btn-group">

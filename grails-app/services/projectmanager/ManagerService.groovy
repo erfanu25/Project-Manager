@@ -8,11 +8,26 @@ class ManagerService {
 
     SecurityService securityService
 
+    boolean userAuthenticated(){
+        def authorization = AppUtil.getAppSession().AUTHORIZED
+        if (authorization.type == "Manager" && authorization.isLoggedIn == true){
+            return true
+        }
+        return false
+    }
+
     def projectDetails(){
         Users manager = securityService.getUser()
         Project project = Project.findByManager(manager)
         List<Users> memberList = Users.findAllByProject(project)
-        return [member:memberList, manager:manager, project:project, count: memberList.size()]
+        return [member:memberList, manager:manager, project:project, count: memberList.size(), companyName:project.company.companyName]
+    }
+
+    def taskDone(){
+        Users manager = securityService.getUser()
+        Project project = Project.findByManager(manager)
+        List<Users> memberList = Users.findAllByProjectAndRole(project,"Member")
+        return [member:memberList, taskDone: memberList]
     }
 
     def taskList(){

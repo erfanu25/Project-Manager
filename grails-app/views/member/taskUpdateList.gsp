@@ -1,7 +1,7 @@
 <meta name="layout" content="member"/>
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-info text-white">
         <g:message message="Task Update List"/>
         <span class="float-right">
 
@@ -25,7 +25,7 @@
                     <td>${member?.dateCreated}</td>
                     <td>
                         <div class="btn-group">
-                            <g:link controller="member" action="removeDailyTask" class="btn btn-secondary" id="${member.id}"><i class="fa fa-remove fa-lg"></i></g:link>
+                            <g:link controller="member" action="removeDailyTask" class="btn btn-secondary" id="${member.id}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"><i class="fa fa-remove fa-lg"></i></g:link>
                         </div>
                     </td>
                 </tr>

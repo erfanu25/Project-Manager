@@ -4,7 +4,7 @@ class ManagerController {
     ManagerService managerService
     def index() {
         def response = managerService.projectDetails()
-        [project: response.project]
+        [project: response.project, companyName: response.companyName]
     }
 
     def teamMembers(){
@@ -76,9 +76,11 @@ class ManagerController {
         [member: response.member, manager:response.manager, project:response.project, count:response.count]
     }
     def teamReport(){
-
+        def response = managerService.taskDone()
+        [taskDone: response.member]
     }
     def taskReport(){
-
+        def response = managerService.taskDone()
+        [taskDone: response.member]
     }
 }

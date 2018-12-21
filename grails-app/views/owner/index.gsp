@@ -1,13 +1,16 @@
 <meta name="layout" content="main"/>
 
 <div class="card">
-    <div class="card-header">
-        <g:message message="Admin Panel"/>
+    <div class="card-header bg-info text-white">
+      <b>  <g:message message="Admin Panel"/></b>
         <span class="float-right">
             <div class="btn-group">
                 <g:link action="index" controller="owner" class="btn btn-primary">Reload</g:link>
             </div>
         </span>
+    </div>
+    <div class="card-body  alert-success text-md-center" >
+        Welcome to ${companyName} Portal
     </div>
 
     <div class="card-body">
@@ -21,7 +24,7 @@
             <div class="card-group row">
                 <g:each in="${project}" var="it">
                     <div class="card-columns column col-4">
-                        <div class="card" style="width: 24rem;">
+                        <div class="card text-white bg-info mb-3" style="width: 24rem;">
                             <g:link controller="owner" action="projectDetails" class="btn btn-light " id="${it.id}">
                             <div class="card-body" style="width: 22rem;">
                                 <p class="card-title"><b>Project Title : </b><g:message message="${it.name}"/></p>

@@ -1,13 +1,17 @@
 <meta name="layout" content="manager"/>
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-info text-white">
         <g:message message="Manager Panel"/>
         <span class="float-right">
             <div class="btn-group">
                 <g:link action="index" controller="manager" class="btn btn-primary">Reload</g:link>
             </div>
         </span>
+    </div>
+
+    <div class="card-body  alert-success text-md-center" >
+        Welcome to ${companyName} Portal
     </div>
 
     <div class="card-body">

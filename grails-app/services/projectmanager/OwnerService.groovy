@@ -8,6 +8,7 @@ import grails.web.servlet.mvc.GrailsParameterMap
 class OwnerService {
 
     SecurityService securityService
+    GlobalConfigService globalConfigService
 
     boolean userAuthenticated(){
         def authorization = AppUtil.getAppSession().AUTHORIZED
@@ -18,17 +19,24 @@ class OwnerService {
     }
 
     def register(GrailsParameterMap params){
+
         Users members = new Users(params)
-        members.password = params.password.encodeAsMD5()
-
-        Users admin = securityService.getUser()
-        Users userCompany = Users.findById(admin.id)
-
-        members.company = userCompany.company
         def response = AppUtil.saveResponse(false, members)
-        if(members.validate()) {
-            response.isSuccess = true
-            members.save(flush: true)
+        if(!params.password.equals(params.rePassword)){
+            response.isSuccess = false
+        }
+        else
+        {
+            members.password = params.password.encodeAsMD5()
+
+            Users admin = securityService.getUser()
+            Users userCompany = Users.findById(admin.id)
+
+            members.company = userCompany.company
+            if(members.validate()) {
+                response.isSuccess = true
+                members.save(flush: true)
+            }
         }
 
         return response
@@ -51,18 +59,29 @@ class OwnerService {
         return response
     }
 
-    def memberList() {
+    def memberList(GrailsParameterMap params) {
         Users admin = securityService.getUser()
         Users userCompany = Users.findById(admin.id)
 
-        List<Users> userList = Users.findAllByCompanyAndRole(userCompany.company,"Member")
-        return [list:userList, count:Users.count()]
+        params.max = params.max ?: globalConfigService.itemsPerPage()
+
+        List<Users> userList = Users.createCriteria().list(params) {
+            if (params?.colName && params?.colValue) {
+                like(params.colName, "%" + params.colValue + "%")
+            }
+            if (!params.sort) {
+                order("id", "desc")
+            }
+            eq("company", userCompany.company)
+            eq("role", "Member")
+        }
+        return [list:userList, count:Users.findAllByCompanyAndRole(userCompany.company,"Member").size()]
     }
     def allManagerList() {
         Users admin = securityService.getUser()
         Users userCompany = Users.findById(admin.id)
 
-        List<Users> userList = Users.findAllByCompanyAndRole(userCompany.company,"Manager")
+        List<Users> userList = Users.findAllByCompanyAndRole(userCompany.company,"Manager")+ Users.findAllByRoleAndCompany("Admin",userCompany.company)
         return [list:userList, count:Users.count()]
     }
 
@@ -91,13 +110,20 @@ class OwnerService {
 
         return Project.findAllByCompany(userCompany.company)
     }
-    def projectList() {
+    def projectList(GrailsParameterMap params) {
         Users admin = securityService.getUser()
         Users userCompany = Users.findById(admin.id)
 
+        params.max = params.max ?: globalConfigService.itemsPerPage()
+
+        List<Project> projectList = Project.createCriteria().list(params) {
+            if (params?.colName && params?.colValue) {
+                like(params.colName, "%" + params.colValue + "%")
+            }
+            eq("company", userCompany.company)
+        }
         List<Users> users = Users.findAllByCompany(userCompany.company)
-        List<Project> projectList = Project.findAllByCompany(userCompany.company)
-        return [list:projectList, count:users.size(), project: projectList.size()]
+        return [list:projectList, count:users.size(), project: projectList.size(), total: Project.findAllByCompany(userCompany.company).size(), companyName:userCompany.company.companyName]
     }
 
     def getMember(Serializable id) {
@@ -173,36 +199,51 @@ class OwnerService {
         return true
     }
     def provideManager(Project project,Users users, GrailsParameterMap params){
-
-        project.manager=users
-        users.project=project
-        def response = AppUtil.saveResponse(false, project)
-        if (project) {
-            response.isSuccess = true
-            project.save(flush:true)
-            users.save(flush:true)
+        def response = AppUtil.saveResponse(false, null)
+        if(users != null && project != null){
+            project.manager=users
+            users.project=project
+            if (project) {
+                response.isSuccess = true
+                project.save(flush:true)
+                users.save(flush:true)
+            }
+            else
+            {
+                response.isSuccess = false
+            }
+            return response
         }
         else
         {
             response.isSuccess = false
+            return response
         }
-        return response
+
     }
 
 
     def provideMember(Project project,Users users, GrailsParameterMap params){
-
-        users.project=project
-        def response = AppUtil.saveResponse(false, project)
-        if (project) {
-            response.isSuccess = true
-            users.save(flush:true)
+        def response = AppUtil.saveResponse(false, null)
+        if(users != null && project != null)
+        {
+            users.project=project
+            if (project) {
+                response.isSuccess = true
+                users.save(flush:true)
+            }
+            else
+            {
+                response.isSuccess = false
+            }
+            return response
         }
         else
         {
             response.isSuccess = false
+            return response
         }
-        return response
+
     }
 
     def projectDetails(Serializable id){

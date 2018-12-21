@@ -32,6 +32,7 @@ class UIHelperTagLib {
 
     def appMenu = { attrs, body ->
         [
+                [controller: "Owner", action: "index", name: "dashboard"],
                 [controller: "Owner", action: "addMember", name: "add.member"],
                 [controller: "Owner", action: "showMember", name: "members"],
                 [controller: "Owner", action: "showManagers", name: "managers"],
@@ -64,7 +65,6 @@ class UIHelperTagLib {
 
     def managerProgressMenu = { attrs, body ->
         [
-                [controller: "Manager", action: "projectReport", name: "projectReport"],
                 [controller: "Manager", action: "teamReport", name: "teamReport"],
                 [controller: "Manager", action: "taskReport", name: "taskReport"],
                 [controller: "Manager", action: "index", name: "Back"],
@@ -77,11 +77,12 @@ class UIHelperTagLib {
     }
     def managerMenu = { attrs, body ->
         [
+                [controller: "Manager", action: "index", name: "dashboard"],
                 [controller: "Manager", action: "teamMembers", name: "teamMembers"],
                 [controller: "Manager", action: "assignTask", name: "assignTask"],
                 [controller: "Manager", action: "taskList", name: "taskList"],
                 [controller: "Manager", action: "dailyTaskUpdate", name: "dailyTaskUpdate"],
-                [controller: "Manager", action: "projectReport", name: "progress.report"]
+                [controller: "Manager", action: "taskReport", name: "progress.report"]
 
         ].each { menu ->
             out << '<li class="list-group-item">'
@@ -92,6 +93,7 @@ class UIHelperTagLib {
 
     def memberMenu = { attrs, body ->
         [
+                [controller: "Member", action: "index", name: "dashboard"],
                 [controller: "Member", action: "viewAssignTask", name: "viewAssignTask"],
                 [controller: "Member", action: "giveTaskUpdate", name: "giveTaskUpdate"],
                 [controller: "Member", action: "taskUpdateList", name: "taskUpdateList"],

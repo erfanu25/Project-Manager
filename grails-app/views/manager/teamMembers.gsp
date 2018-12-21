@@ -1,7 +1,7 @@
 <meta name="layout" content="manager"/>
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-info text-white">
         <g:message message="Team Members"/>
     </div>
     <div class="card-body">

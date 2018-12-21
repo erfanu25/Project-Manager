@@ -1,6 +1,6 @@
 <meta name="layout" content="main"/>
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-info text-white">
         <g:message code="Member" args="['Update']"/>
     </div>
     <div class="card-body">

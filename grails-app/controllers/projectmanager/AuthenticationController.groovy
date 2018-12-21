@@ -55,9 +55,9 @@ class AuthenticationController {
     def doChangePassword() {
         if (securityService.isAuthenticated()) {
             def response = securityService.changePassword(params.password, params.newPassword, params.renewPassword)
-
+            flash.message = response
             if (response.success){
-                redirect(controller: "dashboard", action: "index")
+                redirect(action: "panel")
             }else{
                 redirect(controller: "authentication", action: "changePassword")
             }

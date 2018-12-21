@@ -86,7 +86,7 @@
 
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-info text-white">
         <g:message code="Daily Work Progress"/>
         <span class="float-right">
             <div class="btn-group">

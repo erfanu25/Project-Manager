@@ -16,27 +16,31 @@ class PublicService {
         company.email = params.email
 
         def companyResponse = AppUtil.saveResponse(false, company)
-        if(company.validate()) {
-            company.save(flush: true)
+        if(params.password.equals(params.rePassword)){
 
-            Users users = new Users()
-            users.name = params.ownerName
-            users.password = params.password.encodeAsMD5()
-            users.email = params.email
-            users.role = "Admin"
-            users.company = company
-            users.number = params.number
-            users.designation = "Administrator"
+            if(company.validate()) {
+                company.save(flush: true)
 
-            if(users.validate())
-            {
-                companyResponse.isSuccess = true
-                users.save(flush: true)
+                Users users = new Users()
+                users.name = params.ownerName
+                users.password = params.password.encodeAsMD5()
+                users.email = params.email
+                users.role = "Admin"
+                users.company = company
+                users.number = params.number
+                users.designation = "Administrator"
 
-                securityService.setAuthorization(users)
+                if(users.validate())
+                {
+                    companyResponse.isSuccess = true
+                    users.save(flush: true)
 
+                    securityService.setAuthorization(users)
+
+                }
             }
         }
+
 
         return companyResponse
     }

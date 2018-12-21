@@ -1,7 +1,7 @@
 <meta name="layout" content="main"/>
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-info text-white">
         <g:message message="Project Details"/>
     </div>
     <div class="card-body">
@@ -15,9 +15,13 @@
                 <p class="card-title"><b>Started From : </b><g:message message="${project.dateCreated}"/></p>
                 <p class="card-title"><b>Total Member: </b><g:message message="${count}"/></p>
                 <g:if test="${manager?.name != null}">
-                <g:link controller="owner" action="removeManager" id="${project.id}" class="btn btn-primary"><g:message
+                <g:link controller="owner" action="removeManager" id="${project.id}" class="btn btn-danger"><g:message
                         message="Remove Manager"/></g:link>
                 </g:if>
+                <g:else>
+                    <g:link controller="owner" action="assignManager" id="${project.id}" class="btn btn-primary"><g:message
+                            message="Add Manager"/></g:link>
+                </g:else>
             </div>
         </div>
         <br>

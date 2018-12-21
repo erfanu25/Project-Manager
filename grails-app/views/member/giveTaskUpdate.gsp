@@ -1,6 +1,6 @@
 <meta name="layout" content="member"/>
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-info text-white">
         <g:message message="Daily Task Update"/>
     </div>
     <div class="card-body">

@@ -4,7 +4,7 @@ class MemberController {
     MemberService memberService
     def index() {
         def response = memberService.projectDetails()
-        [project: response.project, user:response.user]
+        [project: response.project, user:response.user, companyName: response.companyName]
     }
 
     def viewAssignTask(){
